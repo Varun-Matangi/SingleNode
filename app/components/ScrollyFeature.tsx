@@ -43,8 +43,6 @@ const STAGES: Stage[] = [
     title: "Software that runs your business.",
     description:
       "Custom applications and internal tools, architected to scale from your first user to your ten-thousandth.",
-    detail:
-      "From the first rough prototype to a system your whole team relies on daily — we own the full lifecycle, not just the parts that are fun to build.",
     points: [
       "Custom-built for your workflow, not bent to fit someone else's",
       "Clean, documented architecture your future team can maintain",
@@ -58,8 +56,6 @@ const STAGES: Stage[] = [
     title: "A front door worth having.",
     description:
       "Marketing sites and web platforms built to convert, engineered to load in a blink.",
-    detail:
-      "Every page is designed with intent and shipped against a performance budget, so it looks premium and still loads like it means it.",
     points: [
       "Design that reflects the quality of what you're selling",
       "Built for search from day one, not bolted on after launch",
@@ -73,8 +69,6 @@ const STAGES: Stage[] = [
     title: "The work that runs itself.",
     description:
       "The manual busywork between your tools, replaced with automations that just quietly work.",
-    detail:
-      "If your team is copy-pasting between spreadsheets and inboxes, that's exactly the kind of work we remove — for good.",
     points: [
       "Fewer spreadsheets, less copy-paste, fewer dropped handoffs",
       "The right person notified at the right moment, automatically",
@@ -88,8 +82,6 @@ const STAGES: Stage[] = [
     title: "A foundation that doesn't move.",
     description:
       "Hardened, monitored infrastructure configured right the first time — the part no one sees, and everything depends on.",
-    detail:
-      "Provisioned once, watched always. When something needs attention, we know before you do.",
     points: [
       "Hardened against the mistakes that take most servers down",
       "Monitored around the clock, not just when something breaks",

@@ -7,7 +7,6 @@ export type Stage = {
   tag: string;
   title: string;
   description: string;
-  detail: string;
   points: string[];
   keywords: string[];
   icon: ReactNode;
@@ -49,57 +48,58 @@ export function StagePanel({
     [0.92, 1, 1, 1, 0.92]
   );
   const iconRotate = useTransform(scrollYProgress, [start, end], [-10, 10]);
-  const numeralX = useTransform(scrollYProgress, [start, end], [30 * direction, -30 * direction]);
+  const numeralX = useTransform(scrollYProgress, [start, end], [20 * direction, -20 * direction]);
 
   return (
     <motion.div
       style={{ opacity, y, scale }}
       className="pointer-events-none absolute inset-0 flex items-center justify-center px-6"
     >
-      <div className="relative grid max-w-4xl items-center gap-10 sm:grid-cols-[auto_1fr] sm:gap-14">
+      <div className="relative mx-auto w-full max-w-4xl">
         <motion.span
           aria-hidden
           style={{ x: numeralX }}
-          className="pointer-events-none absolute -top-16 left-1/2 -z-10 -translate-x-1/2 select-none font-mono text-[9rem] font-bold leading-none text-white/[0.03] sm:-top-24 sm:text-[13rem]"
+          className="pointer-events-none absolute -top-16 right-0 -z-10 select-none font-mono text-[8rem] font-bold leading-none text-white/[0.03] sm:-top-20 sm:text-[12rem]"
         >
           0{index + 1}
         </motion.span>
 
-        <motion.div
-          style={{ rotate: iconRotate, x }}
-          className="relative mx-auto flex h-32 w-32 shrink-0 items-center justify-center rounded-full border border-signal/30 bg-panel/80 text-signal sm:h-40 sm:w-40"
-        >
-          <div className="absolute inset-0 -z-10 rounded-full bg-signal/10 blur-2xl" />
-          <div className="h-12 w-12 sm:h-14 sm:w-14">{stage.icon}</div>
-        </motion.div>
+        <motion.div style={{ x }} className="flex flex-col items-start text-left">
+          <div className="flex items-center gap-3">
+            <motion.div
+              style={{ rotate: iconRotate }}
+              className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-signal/30 bg-panel/80 text-signal"
+            >
+              <div className="absolute inset-0 -z-10 rounded-full bg-signal/10 blur-xl" />
+              <div className="h-5 w-5">{stage.icon}</div>
+            </motion.div>
+            <span className="font-mono text-sm text-stone">{stage.tag}</span>
+          </div>
 
-        <motion.div style={{ x }} className="text-center sm:text-left">
-          <span className="font-mono text-sm text-stone">{stage.tag}</span>
-          <h3 className="mt-2 text-balance text-3xl font-semibold tracking-tight sm:text-5xl">
+          <h3 className="mt-6 text-balance text-4xl font-semibold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
             {stage.title}
           </h3>
-          <p className="mx-auto mt-4 max-w-md text-balance text-base leading-relaxed text-mist sm:mx-0 sm:text-lg">
+          <p className="mt-5 max-w-2xl text-balance text-xl leading-relaxed text-mist sm:text-2xl">
             {stage.description}
           </p>
-          <p className="mx-auto mt-3 max-w-md text-balance text-sm leading-relaxed text-stone sm:mx-0">
-            {stage.detail}
-          </p>
-          <ul className="mx-auto mt-4 flex max-w-md flex-col gap-1.5 sm:mx-0">
+
+          <ul className="mt-7 flex w-full max-w-xl flex-col gap-3">
             {stage.points.map((point) => (
               <li
                 key={point}
-                className="flex items-start justify-center gap-2 text-left text-sm leading-snug text-mist sm:justify-start"
+                className="flex items-start gap-3 text-base leading-snug text-mist sm:text-lg"
               >
-                <span className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-signal" />
+                <span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-signal" />
                 {point}
               </li>
             ))}
           </ul>
-          <div className="mt-6 flex flex-wrap justify-center gap-2 sm:justify-start">
+
+          <div className="mt-7 flex flex-wrap gap-2">
             {stage.keywords.map((keyword) => (
               <span
                 key={keyword}
-                className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs font-medium uppercase tracking-wider text-mist"
+                className="rounded-full border border-white/10 bg-white/[0.03] px-3.5 py-1.5 text-xs font-medium uppercase tracking-wider text-mist sm:text-sm"
               >
                 {keyword}
               </span>
