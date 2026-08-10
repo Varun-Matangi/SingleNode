@@ -2,8 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { Select } from "./Select";
-
-const EMAIL = "hello@singlenodestudio.com";
+import { SITE_EMAIL } from "../lib/site-config";
 
 const SERVICES = [
   "Application Development",
@@ -37,7 +36,7 @@ export function ContactForm() {
     ].join("\n");
 
     setStatus("opening");
-    window.location.href = `mailto:${EMAIL}?subject=${encodeURIComponent(
+    window.location.href = `mailto:${SITE_EMAIL}?subject=${encodeURIComponent(
       subject
     )}&body=${encodeURIComponent(body)}`;
   }

@@ -1,9 +1,7 @@
 import { Container } from "./Container";
 import { Reveal } from "./Reveal";
 import { ContactForm } from "./ContactForm";
-
-const EMAIL = "hello@singlenodestudio.com";
-const PHONE = "+1 (555) 018-2947";
+import { SITE_EMAIL, SITE_PHONE } from "../lib/site-config";
 
 export function CTA() {
   return (
@@ -46,10 +44,10 @@ export function CTA() {
                     Email
                   </p>
                   <a
-                    href={`mailto:${EMAIL}`}
+                    href={`mailto:${SITE_EMAIL}`}
                     className="mt-1 block text-[15px] text-paper transition-colors hover:text-signal"
                   >
-                    {EMAIL}
+                    {SITE_EMAIL}
                   </a>
                 </div>
                 <div>
@@ -57,10 +55,10 @@ export function CTA() {
                     Phone
                   </p>
                   <a
-                    href={`tel:${PHONE.replace(/[^+\d]/g, "")}`}
+                    href={`tel:${SITE_PHONE.replace(/[^+\d]/g, "")}`}
                     className="mt-1 block text-[15px] text-paper transition-colors hover:text-signal"
                   >
-                    {PHONE}
+                    {SITE_PHONE}
                   </a>
                 </div>
                 <div>

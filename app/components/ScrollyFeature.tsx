@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { motion, useScroll, useMotionValueEvent, useTransform } from "framer-motion";
+import { AnimatePresence, motion, useScroll, useMotionValueEvent, useTransform } from "framer-motion";
 import { Container } from "./Container";
 import { StagePanel, type Stage } from "./StagePanel";
 
@@ -92,9 +92,12 @@ const STAGES: Stage[] = [
   },
 ];
 
+const INTRO_END = 0.03;
+
 export function ScrollyFeature() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
+  const [showIntro, setShowIntro] = useState(true);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -105,6 +108,7 @@ export function ScrollyFeature() {
 
   useMotionValueEvent(scrollYProgress, "change", (v) => {
     setActive(Math.min(STAGES.length - 1, Math.floor(v * STAGES.length)));
+    setShowIntro(v < INTRO_END);
   });
 
   return (
@@ -130,7 +134,7 @@ export function ScrollyFeature() {
         />
 
         <Container className="relative flex h-full flex-col justify-center py-20">
-          <div className="absolute left-6 top-16 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.3em] text-signal sm:left-12">
+          <div className="absolute left-6 top-28 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.3em] text-signal sm:left-12">
             The Stack
             <span className="text-stone">
               0{active + 1} / 0{STAGES.length}
@@ -138,6 +142,42 @@ export function ScrollyFeature() {
           </div>
 
           <div className="relative flex-1">
+            <AnimatePresence>
+              {showIntro && (
+                <motion.div
+                  aria-hidden
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -24 }}
+                  transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                  className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-6 px-6 text-center"
+                >
+                  <span className="text-xs font-semibold uppercase tracking-[0.3em] text-signal">
+                    The Stack
+                  </span>
+                  <h3 className="max-w-3xl text-balance text-4xl font-semibold leading-[1.05] tracking-tight sm:text-6xl">
+                    One system. Four disciplines.
+                  </h3>
+                  <p className="max-w-xl text-balance text-lg text-mist sm:text-xl">
+                    Scroll to see how SingleNode covers your whole stack, end to end.
+                  </p>
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    className="mt-4 h-6 w-6 animate-bounce text-stone"
+                  >
+                    <path
+                      d="M12 4v16m0 0-6-6m6 6 6-6"
+                      stroke="currentColor"
+                      strokeWidth="1.75"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
             {STAGES.map((stage, i) => (
               <StagePanel
                 key={stage.title}

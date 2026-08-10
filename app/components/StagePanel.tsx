@@ -23,30 +23,41 @@ export function StagePanel({
   total: number;
   scrollYProgress: MotionValue<number>;
 }) {
+  const isFirst = index === 0;
+  const isLast = index === total - 1;
   const segment = 1 / total;
   const start = index * segment;
-  const mid = start + segment * 0.5;
   const end = start + segment;
-  const fadeIn = start + segment * 0.18;
+  // The first stage gets extra runway before it fades in, so the intro
+  // card has fully exited before "Application Development" appears.
+  const fadeIn = start + segment * (isFirst ? 0.4 : 0.18);
   const fadeOut = end - segment * 0.18;
-  const direction = index % 2 === 0 ? 1 : -1;
 
-  const opacity = useTransform(
-    scrollYProgress,
-    [start, fadeIn, fadeOut, end],
-    [0, 1, 1, 0]
-  );
-  const y = useTransform(scrollYProgress, [start, fadeIn, fadeOut, end], [40, 0, 0, -40]);
-  const x = useTransform(
-    scrollYProgress,
-    [start, fadeIn, fadeOut, end],
-    [24 * direction, 0, 0, -24 * direction]
-  );
-  const scale = useTransform(
-    scrollYProgress,
-    [start, fadeIn, mid, fadeOut, end],
-    [0.92, 1, 1, 1, 0.92]
-  );
+  const direction = index % 2 === 0 ? 1 : -1;
+  const clamp01 = (v: number) => Math.max(0, Math.min(1, v));
+  const enterT = (v: number) => clamp01((v - start) / (fadeIn - start));
+  const exitT = (v: number) => clamp01((v - fadeOut) / (end - fadeOut));
+
+  const opacity = useTransform(scrollYProgress, (v) => {
+    if (v < fadeIn) return enterT(v);
+    if (isLast || v < fadeOut) return 1;
+    return 1 - exitT(v);
+  });
+  const y = useTransform(scrollYProgress, (v) => {
+    if (v < fadeIn) return 40 * (1 - enterT(v));
+    if (isLast || v < fadeOut) return 0;
+    return -40 * exitT(v);
+  });
+  const x = useTransform(scrollYProgress, (v) => {
+    if (v < fadeIn) return 24 * direction * (1 - enterT(v));
+    if (isLast || v < fadeOut) return 0;
+    return -24 * direction * exitT(v);
+  });
+  const scale = useTransform(scrollYProgress, (v) => {
+    if (v < fadeIn) return 0.92 + 0.08 * enterT(v);
+    if (isLast || v < fadeOut) return 1;
+    return 1 - 0.08 * exitT(v);
+  });
   const iconRotate = useTransform(scrollYProgress, [start, end], [-10, 10]);
   const numeralX = useTransform(scrollYProgress, [start, end], [20 * direction, -20 * direction]);
 

@@ -52,7 +52,7 @@ export function SpotlightCard({
     >
       <motion.div
         aria-hidden
-        className="pointer-events-none absolute inset-0 rounded-[inherit]"
+        className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
         style={{ background: spotlightBg }}
       />
       {children}
