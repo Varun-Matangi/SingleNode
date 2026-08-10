@@ -1,5 +1,3 @@
-const STUDIO_LETTERS = "STUDIO".split("");
-
 export function Logo({ className = "" }: { className?: string }) {
   return (
     <span className={`inline-flex flex-col leading-none select-none ${className}`}>
@@ -7,10 +5,8 @@ export function Logo({ className = "" }: { className?: string }) {
         SingleNode
         <span className="text-signal">.</span>
       </span>
-      <span className="mt-1.5 flex justify-between text-[0.62rem] font-semibold text-stone">
-        {STUDIO_LETTERS.map((letter, i) => (
-          <span key={i}>{letter}</span>
-        ))}
+      <span className="mt-1 text-[0.72rem] font-semibold tracking-[0.2em] text-stone">
+        STUDIO
       </span>
     </span>
   );

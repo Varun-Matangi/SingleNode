@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { useScroll, useMotionValueEvent } from "framer-motion";
 import { Container } from "./Container";
 import { Reveal, StaggerGroup, StaggerItem } from "./Reveal";
 import { OrbitGraphic } from "./OrbitGraphic";
@@ -30,19 +31,33 @@ const POINTS = [
 
 export function Approach() {
   const [hovered, setHovered] = useState<number | null>(null);
+  const [scrollActive, setScrollActive] = useState(0);
+  const listRef = useRef<HTMLDivElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: listRef,
+    offset: ["start center", "end center"],
+  });
+
+  useMotionValueEvent(scrollYProgress, "change", (v) => {
+    const index = Math.min(POINTS.length - 1, Math.max(0, Math.floor(v * POINTS.length)));
+    setScrollActive(index);
+  });
+
+  const active = hovered ?? scrollActive;
 
   return (
-    <section id="approach" className="relative overflow-hidden border-t border-white/10 py-28 sm:py-36">
+    <section id="approach" className="relative overflow-hidden border-t border-white/10 py-24 sm:py-32">
       <div
         className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-signal/[0.06] blur-[160px]"
         aria-hidden
       />
 
       <Container className="grid items-center gap-16 lg:grid-cols-2 lg:gap-12">
-        <Reveal className="order-2 lg:order-1">
-          <OrbitGraphic hovered={hovered} onHover={setHovered} />
+        <Reveal className="order-2 lg:sticky lg:top-32 lg:order-1 lg:self-start">
+          <OrbitGraphic hovered={active} onHover={setHovered} />
           <p className="mt-6 text-center text-xs uppercase tracking-[0.25em] text-stone">
-            Hover a node, or a principle
+            Follows the principle as you scroll
           </p>
         </Reveal>
 
@@ -61,9 +76,9 @@ export function Approach() {
             </p>
           </Reveal>
 
-          <StaggerGroup className="mt-10 flex flex-col" stagger={0.12}>
+          <StaggerGroup ref={listRef} className="mt-10 flex flex-col" stagger={0.12}>
             {POINTS.map((point, i) => {
-              const isActive = hovered === i;
+              const isActive = active === i;
               return (
                 <StaggerItem key={point.title}>
                   <div

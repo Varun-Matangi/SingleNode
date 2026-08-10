@@ -1,7 +1,12 @@
-import { Container } from "./Container";
-import { Reveal, StaggerGroup, StaggerItem } from "./Reveal";
+"use client";
 
-const STEPS = [
+import { useRef } from "react";
+import { useScroll } from "framer-motion";
+import { Container } from "./Container";
+import { Reveal, StaggerGroup } from "./Reveal";
+import { ProcessStep, type Step } from "./ProcessStep";
+
+const STEPS: Step[] = [
   {
     number: "01",
     title: "Discover",
@@ -29,8 +34,14 @@ const STEPS = [
 ];
 
 export function Process() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start center", "end center"],
+  });
+
   return (
-    <section id="process" className="relative border-t border-white/10 py-28 sm:py-36">
+    <section id="process" className="relative border-t border-white/10 py-24 sm:py-32">
       <Container>
         <Reveal className="max-w-2xl">
           <span className="text-xs font-semibold uppercase tracking-[0.3em] text-signal">
@@ -42,29 +53,19 @@ export function Process() {
         </Reveal>
 
         <StaggerGroup
+          ref={containerRef}
           className="mt-16 grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-4"
           stagger={0.12}
         >
           {STEPS.map((step, i) => (
-            <StaggerItem key={step.number}>
-              <div className="relative">
-                <div className="flex items-center gap-4">
-                  <span className="font-mono text-sm text-signal">{step.number}</span>
-                  <div className="h-px flex-1 bg-white/10" />
-                </div>
-                <h3 className="mt-5 text-xl font-semibold tracking-tight">
-                  {step.title}
-                </h3>
-                <p className="mt-3 text-[15px] leading-relaxed text-mist">
-                  {step.description}
-                </p>
-                {i < STEPS.length - 1 && (
-                  <div className="pointer-events-none absolute -right-4 top-2 hidden text-stone/40 lg:block">
-                    &rarr;
-                  </div>
-                )}
-              </div>
-            </StaggerItem>
+            <ProcessStep
+              key={step.number}
+              step={step}
+              index={i}
+              total={STEPS.length}
+              isLast={i === STEPS.length - 1}
+              scrollYProgress={scrollYProgress}
+            />
           ))}
         </StaggerGroup>
       </Container>

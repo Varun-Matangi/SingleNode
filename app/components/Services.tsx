@@ -63,7 +63,7 @@ const SERVICES = [
 
 export function Services() {
   return (
-    <section id="services" className="relative py-28 sm:py-36">
+    <section id="services" className="relative border-t border-white/10 py-24 sm:py-32">
       <Container>
         <Reveal className="max-w-2xl">
           <span className="text-xs font-semibold uppercase tracking-[0.3em] text-signal">
@@ -90,7 +90,7 @@ export function Services() {
                   0{i + 1}
                 </span>
 
-                <div className="relative flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] text-signal transition-all duration-500 ease-out group-hover:-translate-y-0.5 group-hover:rotate-6 group-hover:border-signal/40">
+                <div className="relative flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] text-mist transition-all duration-500 ease-out group-hover:-translate-y-0.5 group-hover:rotate-6 group-hover:border-signal/40 group-hover:text-signal">
                   {service.icon}
                 </div>
                 <h3 className="relative mt-6 text-xl font-semibold tracking-tight">

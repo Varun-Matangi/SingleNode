@@ -7,7 +7,7 @@ const PHONE = "+1 (555) 018-2947";
 
 export function CTA() {
   return (
-    <section id="contact" className="relative overflow-hidden border-t border-white/10 py-28 sm:py-36">
+    <section id="contact" className="relative overflow-hidden border-t border-white/10 py-24 sm:py-32">
       <div
         className="pointer-events-none absolute left-1/2 top-0 -z-10 h-[420px] w-[720px] -translate-x-1/2 rounded-full bg-signal/10 blur-[140px]"
         aria-hidden

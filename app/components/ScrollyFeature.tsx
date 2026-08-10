@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { useScroll, useMotionValueEvent } from "framer-motion";
+import { motion, useScroll, useMotionValueEvent, useTransform } from "framer-motion";
 import { Container } from "./Container";
 import { StagePanel, type Stage } from "./StagePanel";
 
@@ -43,7 +43,14 @@ const STAGES: Stage[] = [
     title: "Software that runs your business.",
     description:
       "Custom applications and internal tools, architected to scale from your first user to your ten-thousandth.",
-    keywords: ["React", "Node.js", "PostgreSQL", "TypeScript"],
+    detail:
+      "From the first rough prototype to a system your whole team relies on daily — we own the full lifecycle, not just the parts that are fun to build.",
+    points: [
+      "Custom-built for your workflow, not bent to fit someone else's",
+      "Clean, documented architecture your future team can maintain",
+      "Real testing before it ever reaches a customer",
+    ],
+    keywords: ["Front-end", "Back-end", "Database", "APIs"],
     icon: ICON.app,
   },
   {
@@ -51,7 +58,14 @@ const STAGES: Stage[] = [
     title: "A front door worth having.",
     description:
       "Marketing sites and web platforms built to convert, engineered to load in a blink.",
-    keywords: ["Next.js", "Design Systems", "SEO", "Performance"],
+    detail:
+      "Every page is designed with intent and shipped against a performance budget, so it looks premium and still loads like it means it.",
+    points: [
+      "Design that reflects the quality of what you're selling",
+      "Built for search from day one, not bolted on after launch",
+      "Fast on a phone in a parking lot, not just your office wifi",
+    ],
+    keywords: ["Design", "Development", "SEO", "Performance"],
     icon: ICON.web,
   },
   {
@@ -59,7 +73,14 @@ const STAGES: Stage[] = [
     title: "The work that runs itself.",
     description:
       "The manual busywork between your tools, replaced with automations that just quietly work.",
-    keywords: ["Webhooks", "APIs", "Scheduled Jobs", "Integrations"],
+    detail:
+      "If your team is copy-pasting between spreadsheets and inboxes, that's exactly the kind of work we remove — for good.",
+    points: [
+      "Fewer spreadsheets, less copy-paste, fewer dropped handoffs",
+      "The right person notified at the right moment, automatically",
+      "Built to fail loudly and recover quietly, never silently",
+    ],
+    keywords: ["Integrations", "Workflows", "Scheduling", "Notifications"],
     icon: ICON.automation,
   },
   {
@@ -67,7 +88,14 @@ const STAGES: Stage[] = [
     title: "A foundation that doesn't move.",
     description:
       "Hardened, monitored infrastructure configured right the first time — the part no one sees, and everything depends on.",
-    keywords: ["Docker", "Nginx", "CI/CD", "Ubuntu"],
+    detail:
+      "Provisioned once, watched always. When something needs attention, we know before you do.",
+    points: [
+      "Hardened against the mistakes that take most servers down",
+      "Monitored around the clock, not just when something breaks",
+      "Backed up properly, so a bad day never becomes a bad year",
+    ],
+    keywords: ["Provisioning", "Security", "Monitoring", "Backups"],
     icon: ICON.server,
   },
 ];
@@ -80,6 +108,8 @@ export function ScrollyFeature() {
     target: containerRef,
     offset: ["start start", "end end"],
   });
+
+  const spotlightX = useTransform(scrollYProgress, [0, 1], ["25%", "75%"]);
 
   useMotionValueEvent(scrollYProgress, "change", (v) => {
     setActive(Math.min(STAGES.length - 1, Math.floor(v * STAGES.length)));
@@ -101,10 +131,18 @@ export function ScrollyFeature() {
             maskImage: "radial-gradient(ellipse 60% 60% at 50% 50%, black 30%, transparent 100%)",
           }}
         />
+        <motion.div
+          aria-hidden
+          className="pointer-events-none absolute top-1/2 h-[520px] w-[520px] -translate-y-1/2 rounded-full bg-signal/[0.07] blur-[130px]"
+          style={{ left: spotlightX, translateX: "-50%" }}
+        />
 
         <Container className="relative flex h-full flex-col justify-center py-20">
-          <div className="absolute left-6 top-16 text-xs font-semibold uppercase tracking-[0.3em] text-signal sm:left-12">
+          <div className="absolute left-6 top-16 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.3em] text-signal sm:left-12">
             The Stack
+            <span className="text-stone">
+              0{active + 1} / 0{STAGES.length}
+            </span>
           </div>
 
           <div className="relative flex-1">

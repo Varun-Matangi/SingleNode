@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import { Select } from "./Select";
 
 const EMAIL = "hello@singlenodestudio.com";
 
@@ -17,13 +18,13 @@ const inputClasses =
 
 export function ContactForm() {
   const [status, setStatus] = useState<"idle" | "opening">("idle");
+  const [service, setService] = useState(SERVICES[0]);
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = new FormData(e.currentTarget);
     const name = form.get("name")?.toString() ?? "";
     const email = form.get("email")?.toString() ?? "";
-    const service = form.get("service")?.toString() ?? "";
     const message = form.get("message")?.toString() ?? "";
 
     const subject = `New project inquiry — ${name || "Website visitor"}`;
@@ -61,13 +62,7 @@ export function ContactForm() {
         <label htmlFor="service" className="mb-2 block text-xs font-medium uppercase tracking-wider text-stone">
           What do you need?
         </label>
-        <select id="service" name="service" defaultValue={SERVICES[0]} className={`${inputClasses} appearance-none`}>
-          {SERVICES.map((service) => (
-            <option key={service} value={service} className="bg-panel text-paper">
-              {service}
-            </option>
-          ))}
-        </select>
+        <Select id="service" name="service" options={SERVICES} value={service} onChange={setService} />
       </div>
 
       <div className="sm:col-span-2">

@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, type Variants } from "framer-motion";
-import type { ReactNode } from "react";
+import { forwardRef, type ReactNode } from "react";
 
 type RevealProps = {
   children: ReactNode;
@@ -43,14 +43,13 @@ type StaggerProps = {
   once?: boolean;
 };
 
-export function StaggerGroup({
-  children,
-  className,
-  stagger = 0.1,
-  once = true,
-}: StaggerProps) {
+export const StaggerGroup = forwardRef<HTMLDivElement, StaggerProps>(function StaggerGroup(
+  { children, className, stagger = 0.1, once = true },
+  ref
+) {
   return (
     <motion.div
+      ref={ref}
       className={className}
       initial="hidden"
       whileInView="show"
@@ -60,7 +59,7 @@ export function StaggerGroup({
       {children}
     </motion.div>
   );
-}
+});
 
 export function StaggerItem({
   children,

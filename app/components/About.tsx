@@ -18,7 +18,7 @@ const PRINCIPLES = [
 
 export function About() {
   return (
-    <section id="about" className="relative border-t border-white/10 py-28 sm:py-36">
+    <section id="about" className="relative border-t border-white/10 py-24 sm:py-32">
       <Container className="grid gap-16 lg:grid-cols-2 lg:gap-20">
         <Reveal>
           <span className="text-xs font-semibold uppercase tracking-[0.3em] text-signal">
