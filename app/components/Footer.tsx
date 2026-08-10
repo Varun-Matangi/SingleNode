@@ -2,6 +2,7 @@ import { Container } from "./Container";
 import { Logo } from "./Logo";
 
 const LINKS = [
+  { href: "#about", label: "About" },
   { href: "#services", label: "Services" },
   { href: "#approach", label: "Approach" },
   { href: "#process", label: "Process" },

@@ -1,5 +1,6 @@
 import { Container } from "./Container";
 import { Reveal, StaggerGroup, StaggerItem } from "./Reveal";
+import { SpotlightCard } from "./SpotlightCard";
 
 const ICONS = {
   app: (
@@ -79,14 +80,17 @@ export function Services() {
         </Reveal>
 
         <StaggerGroup className="mt-16 grid gap-5 sm:grid-cols-2" stagger={0.12}>
-          {SERVICES.map((service) => (
+          {SERVICES.map((service, i) => (
             <StaggerItem key={service.title}>
-              <div className="group relative h-full overflow-hidden rounded-2xl border border-white/10 bg-panel/60 p-8 transition-all duration-500 hover:-translate-y-1 hover:border-signal/30 hover:bg-panel">
-                <div
-                  className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-signal/0 blur-3xl transition-all duration-500 group-hover:bg-signal/10"
+              <SpotlightCard className="group relative h-full overflow-hidden rounded-2xl border border-white/10 bg-panel/60 p-8 transition-colors duration-500 hover:border-signal/30 hover:bg-panel">
+                <span
                   aria-hidden
-                />
-                <div className="relative flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] text-signal transition-colors duration-500 group-hover:border-signal/40">
+                  className="pointer-events-none absolute -right-3 -top-6 select-none font-mono text-8xl font-bold text-white/[0.03] transition-colors duration-500 group-hover:text-signal/[0.08]"
+                >
+                  0{i + 1}
+                </span>
+
+                <div className="relative flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] text-signal transition-all duration-500 ease-out group-hover:-translate-y-0.5 group-hover:rotate-6 group-hover:border-signal/40">
                   {service.icon}
                 </div>
                 <h3 className="relative mt-6 text-xl font-semibold tracking-tight">
@@ -95,7 +99,7 @@ export function Services() {
                 <p className="relative mt-3 text-[15px] leading-relaxed text-mist">
                   {service.description}
                 </p>
-              </div>
+              </SpotlightCard>
             </StaggerItem>
           ))}
         </StaggerGroup>

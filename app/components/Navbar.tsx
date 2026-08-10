@@ -7,10 +7,10 @@ import { Logo } from "./Logo";
 import { LinkButton } from "./Button";
 
 const LINKS = [
+  { href: "#about", label: "About" },
   { href: "#services", label: "Services" },
   { href: "#approach", label: "Approach" },
   { href: "#process", label: "Process" },
-  // { href: "#contact", label: "Contact" },
 ];
 
 export function Navbar() {
@@ -44,19 +44,19 @@ export function Navbar() {
           <Logo />
         </a>
 
-        <nav className="hidden items-center gap-10 md:flex">
-          {LINKS.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="text-sm text-mist transition-colors hover:text-paper"
-            >
-              {link.label}
-            </a>
-          ))}
-        </nav>
+        <div className="hidden items-center gap-10 md:flex">
+          <nav className="flex items-center gap-10">
+            {LINKS.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="text-sm text-mist transition-colors hover:text-paper"
+              >
+                {link.label}
+              </a>
+            ))}
+          </nav>
 
-        <div className="hidden md:block">
           <LinkButton href="#contact" className="px-6 py-3 text-[13px]">
             Contact Us
           </LinkButton>
@@ -68,21 +68,16 @@ export function Navbar() {
           onClick={() => setOpen((v) => !v)}
           className="relative z-10 flex h-10 w-10 items-center justify-center md:hidden"
         >
-          <span className="relative block h-4 w-5">
-            <span
-              className={`absolute left-0 top-0 h-[1.5px] w-full bg-paper transition-all duration-300 ${
-                open ? "top-[7px] rotate-45" : ""
-              }`}
+          <span className="relative flex h-5 w-5 items-center justify-center">
+            <motion.span
+              className="absolute h-[1.5px] w-5 rounded-full bg-paper"
+              animate={{ rotate: open ? 45 : 0, y: open ? 0 : -5 }}
+              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
             />
-            <span
-              className={`absolute left-0 top-[7px] h-[1.5px] w-full bg-paper transition-opacity duration-200 ${
-                open ? "opacity-0" : ""
-              }`}
-            />
-            <span
-              className={`absolute left-0 top-[14px] h-[1.5px] w-full bg-paper transition-all duration-300 ${
-                open ? "top-[7px] -rotate-45" : ""
-              }`}
+            <motion.span
+              className="absolute h-[1.5px] w-5 rounded-full bg-paper"
+              animate={{ rotate: open ? -45 : 0, y: open ? 0 : 5 }}
+              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
             />
           </span>
         </button>
