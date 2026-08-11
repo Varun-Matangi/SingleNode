@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { SmoothScroll } from "./components/SmoothScroll";
+import { SITE_URL } from "./lib/site-config";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,12 +15,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "SingleNode Studio — Application Development, Web Design & Automations",
   description:
     "SingleNode Studio builds premium software: application development, website design & development, business automations, and Linux server infrastructure. One studio, senior craft, no shortcuts.",
-  icons: {
-    icon: "/favicon.ico",
-  },
   openGraph: {
     title: "SingleNode Studio",
     description:
