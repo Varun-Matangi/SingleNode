@@ -47,14 +47,14 @@ export function ContactForm() {
         <label htmlFor="name" className="mb-2 block text-xs font-medium uppercase tracking-wider text-stone">
           Name
         </label>
-        <input id="name" name="name" type="text" required placeholder="Jane Doe" className={inputClasses} />
+        <input id="name" name="name" type="text" required placeholder="John Doe" className={inputClasses} />
       </div>
 
       <div className="sm:col-span-1">
         <label htmlFor="email" className="mb-2 block text-xs font-medium uppercase tracking-wider text-stone">
           Email
         </label>
-        <input id="email" name="email" type="email" required placeholder="jane@company.com" className={inputClasses} />
+        <input id="email" name="email" type="email" required placeholder="john@company.com" className={inputClasses} />
       </div>
 
       <div className="sm:col-span-2">
