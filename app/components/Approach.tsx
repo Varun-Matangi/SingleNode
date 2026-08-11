@@ -1,10 +1,10 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { useScroll, useMotionValueEvent } from "framer-motion";
+import { useState } from "react";
+import { motion } from "framer-motion";
 import { Container } from "./Container";
 import { Reveal, StaggerGroup, StaggerItem } from "./Reveal";
-import { OrbitGraphic } from "./OrbitGraphic";
+import { SignalTerminal } from "./SignalTerminal";
 
 const POINTS = [
   {
@@ -32,17 +32,7 @@ const POINTS = [
 export function Approach() {
   const [hovered, setHovered] = useState<number | null>(null);
   const [scrollActive, setScrollActive] = useState(0);
-  const listRef = useRef<HTMLDivElement>(null);
-
-  const { scrollYProgress } = useScroll({
-    target: listRef,
-    offset: ["start center", "end center"],
-  });
-
-  useMotionValueEvent(scrollYProgress, "change", (v) => {
-    const index = Math.min(POINTS.length - 1, Math.max(0, Math.floor(v * POINTS.length)));
-    setScrollActive(index);
-  });
+  const [mobileActive, setMobileActive] = useState(0);
 
   const active = hovered ?? scrollActive;
 
@@ -53,41 +43,42 @@ export function Approach() {
         aria-hidden
       />
 
-      <Container className="grid items-center gap-16 lg:grid-cols-2 lg:gap-12">
-        <Reveal className="order-2 lg:sticky lg:top-32 lg:order-1 lg:self-start">
-          <OrbitGraphic hovered={active} onHover={setHovered} />
-          <p className="mt-6 text-center text-xs uppercase tracking-[0.25em] text-stone">
-            Follows the principle as you scroll
+      <Container>
+        <Reveal className="max-w-2xl">
+          <span className="text-xs font-semibold uppercase tracking-[0.3em] text-signal">
+            Why SingleNode
+          </span>
+          <h2 className="mt-5 text-balance text-4xl font-semibold leading-[1.1] tracking-tight sm:text-5xl">
+            Built like it&rsquo;s our own product.
+          </h2>
+          <p className="mt-5 max-w-lg text-lg leading-relaxed text-mist">
+            Everything routes through one accountable node — us. No
+            subcontractors, no rotating juniors, no vendor to chase down
+            when something breaks.
           </p>
         </Reveal>
 
-        <div className="order-1 lg:order-2">
-          <Reveal>
-            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-signal">
-              Why SingleNode
-            </span>
-            <h2 className="mt-5 text-balance text-4xl font-semibold leading-[1.1] tracking-tight sm:text-5xl">
-              Built like it&rsquo;s our own product.
-            </h2>
-            <p className="mt-5 max-w-lg text-lg leading-relaxed text-mist">
-              Everything routes through one accountable node — us. No
-              subcontractors, no rotating juniors, no vendor to chase down
-              when something breaks.
+        {/* Desktop: companion terminal, synced to whichever point is centered in view */}
+        <div className="mt-16 hidden lg:grid lg:grid-cols-2 lg:items-center lg:gap-12">
+          <Reveal className="order-1 lg:sticky lg:top-32 lg:self-start">
+            <SignalTerminal points={POINTS} active={active} onHoverDot={setHovered} />
+            <p className="mt-6 text-center text-xs uppercase tracking-[0.25em] text-stone">
+              Follows the principle as you scroll
             </p>
           </Reveal>
 
-          <StaggerGroup ref={listRef} className="mt-10 flex flex-col" stagger={0.12}>
+          <StaggerGroup className="order-2 flex flex-col" stagger={0.12}>
             {POINTS.map((point, i) => {
               const isActive = active === i;
               return (
                 <StaggerItem key={point.title}>
-                  <div
+                  <motion.div
+                    onViewportEnter={() => setScrollActive(i)}
+                    viewport={{ margin: "-45% 0px -45% 0px" }}
                     onMouseEnter={() => setHovered(i)}
                     onMouseLeave={() => setHovered(null)}
                     className={`cursor-default border-l-2 py-4 pl-6 transition-all duration-300 ${
-                      isActive
-                        ? "border-signal bg-signal/[0.04]"
-                        : "border-white/10"
+                      isActive ? "border-signal bg-signal/[0.04]" : "border-white/10"
                     }`}
                   >
                     <h3
@@ -100,11 +91,48 @@ export function Approach() {
                     <p className="mt-2 text-[15px] leading-relaxed text-mist">
                       {point.description}
                     </p>
-                  </div>
+                  </motion.div>
                 </StaggerItem>
               );
             })}
           </StaggerGroup>
+        </div>
+
+        {/* Mobile & tablet: simple, independent reveal per point — the line turns
+            green as it passes through the center of the screen while scrolling */}
+        <div className="mt-12 flex flex-col lg:hidden">
+          {POINTS.map((point, i) => {
+            const isActive = mobileActive === i;
+            return (
+              <motion.div
+                key={point.title}
+                onViewportEnter={() => setMobileActive(i)}
+                viewport={{ margin: "-45% 0px -45% 0px" }}
+                className="relative py-4 pl-6"
+              >
+                <motion.span
+                  initial={{ scaleY: 0 }}
+                  whileInView={{ scaleY: 1 }}
+                  viewport={{ once: true, amount: 0.6 }}
+                  transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                  style={{ transformOrigin: "top" }}
+                  className={`absolute left-0 top-0 h-full w-[2px] transition-colors duration-500 ${
+                    isActive ? "bg-signal" : "bg-white/10"
+                  }`}
+                />
+                <h3
+                  className={`text-lg font-semibold tracking-tight transition-colors duration-300 ${
+                    isActive ? "text-signal" : "text-paper"
+                  }`}
+                >
+                  {point.title}
+                </h3>
+                <p className="mt-2 text-[15px] leading-relaxed text-mist">
+                  {point.description}
+                </p>
+              </motion.div>
+            );
+          })}
         </div>
       </Container>
     </section>

@@ -133,14 +133,7 @@ export function ScrollyFeature() {
           style={{ left: spotlightX, translateX: "-50%" }}
         />
 
-        <Container className="relative flex h-full flex-col justify-center py-20">
-          <div className="absolute left-6 top-28 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.3em] text-signal sm:left-12">
-            The Stack
-            <span className="text-stone">
-              0{active + 1} / 0{STAGES.length}
-            </span>
-          </div>
-
+        <Container className="relative flex h-full flex-col justify-center py-12 sm:py-20">
           <div className="relative flex-1">
             <AnimatePresence>
               {showIntro && (
@@ -150,21 +143,21 @@ export function ScrollyFeature() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -24 }}
                   transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                  className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-6 px-6 text-center"
+                  className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-3 px-6 text-center sm:gap-6"
                 >
                   <span className="text-xs font-semibold uppercase tracking-[0.3em] text-signal">
                     The Stack
                   </span>
-                  <h3 className="max-w-3xl text-balance text-4xl font-semibold leading-[1.05] tracking-tight sm:text-6xl">
+                  <h3 className="max-w-3xl text-balance text-2xl font-semibold leading-[1.1] tracking-tight sm:text-6xl">
                     One system. Four disciplines.
                   </h3>
-                  <p className="max-w-xl text-balance text-lg text-mist sm:text-xl">
+                  <p className="max-w-xl text-balance text-sm text-mist sm:text-xl">
                     Scroll to see how SingleNode covers your whole stack, end to end.
                   </p>
                   <svg
                     viewBox="0 0 24 24"
                     fill="none"
-                    className="mt-4 h-6 w-6 animate-bounce text-stone"
+                    className="mt-2 h-5 w-5 animate-bounce text-stone sm:mt-4 sm:h-6 sm:w-6"
                   >
                     <path
                       d="M12 4v16m0 0-6-6m6 6 6-6"
@@ -189,15 +182,23 @@ export function ScrollyFeature() {
             ))}
           </div>
 
-          <div className="absolute bottom-16 left-1/2 flex -translate-x-1/2 items-center gap-3">
-            {STAGES.map((stage, i) => (
-              <div
-                key={stage.title}
-                className={`h-1.5 rounded-full transition-all duration-500 ${
-                  i === active ? "w-8 bg-signal" : "w-1.5 bg-white/15"
-                }`}
-              />
-            ))}
+          <div className="absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-col items-center gap-4 sm:bottom-16">
+            <span className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.3em] text-signal">
+              The Stack
+              <span className="text-stone">
+                0{active + 1} / 0{STAGES.length}
+              </span>
+            </span>
+            <div className="flex items-center gap-3">
+              {STAGES.map((stage, i) => (
+                <div
+                  key={stage.title}
+                  className={`h-1.5 rounded-full transition-all duration-500 ${
+                    i === active ? "w-8 bg-signal" : "w-1.5 bg-white/15"
+                  }`}
+                />
+              ))}
+            </div>
           </div>
         </Container>
       </div>
