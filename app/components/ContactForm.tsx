@@ -25,8 +25,10 @@ export function ContactForm() {
     const form = new FormData(currentForm);
     const name = form.get("name")?.toString() ?? "";
     const email = form.get("email")?.toString() ?? "";
-    const message = form.get("message")?.toString() ?? "";
+    const phone = form.get("phone")?.toString() ?? "";
     const company = form.get("company")?.toString() ?? "";
+    const message = form.get("message")?.toString() ?? "";
+    const website = form.get("website")?.toString() ?? "";
 
     setStatus("submitting");
 
@@ -34,7 +36,7 @@ export function ContactForm() {
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, service, message, company }),
+        body: JSON.stringify({ name, email, phone, company, service, message, website }),
       });
 
       if (!response.ok) {
@@ -53,7 +55,7 @@ export function ContactForm() {
     <form onSubmit={handleSubmit} className="grid gap-5 sm:grid-cols-2">
       <input
         type="text"
-        name="company"
+        name="website"
         tabIndex={-1}
         autoComplete="off"
         aria-hidden="true"
@@ -72,6 +74,20 @@ export function ContactForm() {
           Email
         </label>
         <input id="email" name="email" type="email" required placeholder="john@company.com" className={inputClasses} />
+      </div>
+
+      <div className="sm:col-span-1">
+        <label htmlFor="company" className="mb-2 block text-xs font-medium uppercase tracking-wider text-stone">
+          Company
+        </label>
+        <input id="company" name="company" type="text" placeholder="Acme Inc." className={inputClasses} />
+      </div>
+
+      <div className="sm:col-span-1">
+        <label htmlFor="phone" className="mb-2 block text-xs font-medium uppercase tracking-wider text-stone">
+          Phone
+        </label>
+        <input id="phone" name="phone" type="tel" placeholder="+1 (555) 018-2947" className={inputClasses} />
       </div>
 
       <div className="sm:col-span-2">
