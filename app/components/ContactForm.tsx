@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import { Select } from "./Select";
 import { SITE_EMAIL } from "../lib/site-config";
 
@@ -18,6 +18,20 @@ const inputClasses =
 export function ContactForm() {
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [service, setService] = useState(SERVICES[0]);
+  const dismissTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (dismissTimer.current) clearTimeout(dismissTimer.current);
+    };
+  }, []);
+
+  function scheduleDismiss() {
+    if (dismissTimer.current) clearTimeout(dismissTimer.current);
+    dismissTimer.current = setTimeout(() => {
+      setStatus("idle");
+    }, 6000);
+  }
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -46,8 +60,10 @@ export function ContactForm() {
       setStatus("success");
       currentForm.reset();
       setService(SERVICES[0]);
+      scheduleDismiss();
     } catch {
       setStatus("error");
+      scheduleDismiss();
     }
   }
 
